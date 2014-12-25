@@ -1,5 +1,6 @@
 package com.relicum.libscommands;
 
+import com.google.common.collect.ImmutableList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,7 @@ public class CommandManager {
     private YamlConfiguration config;
     private File configFile;
     private boolean newFile = false;
+    private List<String> disabled = ImmutableList.of("Give", "Enchant", "Item", "SpawnMob");
 
     private SimpleCommandMap getCommandMap() {
         try {
@@ -60,6 +62,8 @@ public class CommandManager {
 
     public boolean loadCommand(CommandExecutor exc, boolean save, JavaPlugin plugin) {
         String commandName = exc.getClass().getSimpleName();
+        if (disabled.contains(commandName))
+            return false;
         try {
             Method field = exc.getClass().getMethod("getCommand");
             if (field != null)

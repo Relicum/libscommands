@@ -1,5 +1,6 @@
 package com.relicum.libscommands;
 
+import com.google.common.collect.ImmutableList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -18,9 +21,9 @@ import java.util.jar.JarFile;
 // Code for this taken and slightly modified from
 // https://github.com/ddopson/java-class-enumerator
 public class ClassGetter {
-
+    public static List<String> disabled = ImmutableList.of("Give", "Enchant", "Item", "SpawnMob");
     public static ArrayList<Class<?>> getClassesForPackage(JavaPlugin plugin, String pkgname) {
-        ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         // String relPath = pkgname.replace('.', '/');
 
         // Get a File object for the package
@@ -30,19 +33,21 @@ public class ClassGetter {
             resource.getPath();
             processJarfile(resource, pkgname, classes);
         }
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<Class<?>> classi = new ArrayList<Class<?>>();
-        for (Class<?> classy : classes) {
+        ArrayList<String> names = new ArrayList<>();
+        AtomicReference<ArrayList<Class<?>>> classi = new AtomicReference<>(new ArrayList<>());
+        classes.stream().filter(classy -> !disabled.contains(classy.getSimpleName())).forEach(classy -> {
             names.add(classy.getSimpleName());
-            classi.add(classy);
-        }
+            classi.get().add(classy);
+        });
         classes.clear();
         Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
         for (String s : names)
-            for (Class<?> classy : classi) {
-                if (classy.getSimpleName().equals(s)) {
-                    classes.add(classy);
-                    break;
+            for (Class<?> classy : classi.get()) {
+                if (!disabled.contains(classy.getSimpleName())) {
+                    if (classy.getSimpleName().equals(s)) {
+                        classes.add(classy);
+                        break;
+                    }
                 }
             }
         return classes;
