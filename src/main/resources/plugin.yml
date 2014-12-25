@@ -1,5 +1,5 @@
 name: LibsCommands
 main: com.relicum.libscommands.LibsCommands
 authors: [libraryaddict,Relicum]
-version: 2.2
+version: ${project.version}
 load: STARTUP

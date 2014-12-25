@@ -1,4 +1,4 @@
-LibsCommands 2.3
+LibsCommands 2.3.1
 ===
 ```
 LibsCommands started by @libraryaddict and being updated and continued by @Relicum

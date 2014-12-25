@@ -21,7 +21,7 @@ import java.util.*;
  * User: Austin Date: 11/7/12 Time: 12:04 PM
  */
 public class CommandManager {
-    private Map<String, Map<String, Object>> commandsMap = new HashMap<String, Map<String, Object>>();
+    private Map<String, Map<String, Object>> commandsMap = new HashMap<>();
     private YamlConfiguration config;
     private File configFile;
     private boolean newFile = false;
@@ -52,7 +52,7 @@ public class CommandManager {
             else
                 newFile = false;
             config.load(configFile);
-            loadCommands(plugin, "me.libraryaddict.LibsCommands.Commands");
+            loadCommands(plugin, "com.relicum.libscommands.Commands");
         } catch (Exception e) {
             e.printStackTrace();
         }
