@@ -1,0 +1,5 @@
+name: LibsCommands
+main: com.relicum.libscommands.LibsCommands
+authors: [libraryaddict,Relicum]
+version: 2.2
+load: STARTUP
