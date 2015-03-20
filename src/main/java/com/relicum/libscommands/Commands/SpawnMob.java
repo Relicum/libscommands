@@ -1,6 +1,10 @@
 package com.relicum.libscommands.Commands;
 
-import com.relicum.libscommands.LibsCommands;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +19,7 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Random;
+import com.relicum.libscommands.LibsCommands;
 
 public class SpawnMob implements CommandExecutor {
     public String description = "Spawn a mob in";
@@ -38,7 +41,9 @@ public class SpawnMob implements CommandExecutor {
         if (sender.hasPermission("bukkit.command.spawnmob")) {
             if (args.length > 0) {
                 Player p = (Player) sender;
-                List<Block> blocks = p.getLastTwoTargetBlocks(null, 200);
+                Set<Material> mat = new HashSet<>();
+
+                List<Block> blocks = p.getLastTwoTargetBlocks(mat, 200);
                 Location l = blocks.get(1).getLocation().clone().add(0.5, 1, 0.5);
                 int amount = 1;
                 EntityType type = getType(args[0]);

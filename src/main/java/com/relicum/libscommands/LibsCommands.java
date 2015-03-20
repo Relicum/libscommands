@@ -1,5 +1,7 @@
 package com.relicum.libscommands;
 
+import java.util.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -10,17 +12,19 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
-
 public class LibsCommands extends JavaPlugin implements Listener {
     private String chatColorPerm;
-    public List<String> god = new ArrayList<>();
+    public List<UUID> god = new ArrayList<>();
     public Map<String, List<String>> ignoring = new HashMap<>();
     public List<String> ignoringAll = new ArrayList<>();
     public Map<String, String> lastMsg = new HashMap<>();
@@ -98,7 +102,7 @@ public class LibsCommands extends JavaPlugin implements Listener {
     public void onDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
             Player p = (Player) event.getEntity();
-            if (god.contains(p.getName()))
+            if (god.contains(p.getUniqueId()))
                 event.setCancelled(true);
         }
     }

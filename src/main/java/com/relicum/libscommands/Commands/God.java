@@ -1,12 +1,13 @@
 package com.relicum.libscommands.Commands;
 
-import com.relicum.libscommands.LibsCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.relicum.libscommands.LibsCommands;
 
 public class God implements CommandExecutor {
     public String description = "Toggle invincibility";
@@ -26,11 +27,12 @@ public class God implements CommandExecutor {
                     return true;
                 }
             }
-            if (lib.god.contains(p.getName())) {
-                lib.god.remove(p.getName());
+            if (lib.god.contains(p.getUniqueId()))
+            {
+                lib.god.remove(p.getUniqueId());
                 sender.sendMessage(ChatColor.YELLOW + p.getName() + " is no longer in god mode");
             } else {
-                lib.god.add(p.getName());
+                lib.god.add(p.getUniqueId());
                 sender.sendMessage(ChatColor.YELLOW + p.getName() + " is now in god mode");
             }
         } else
